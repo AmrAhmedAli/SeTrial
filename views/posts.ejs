@@ -1,0 +1,116 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./head %>
+</head>
+<style>
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+
+<body class="container">
+
+<header>
+    <% include ./header %>
+</header>
+
+<main>
+    <div class="jumbotron" href = "/posts">
+        <table  class="table table-bordered table-responsive">
+   <tr>
+      <th>Username</th><th>Posts</th><th>Delete?</th>
+   </tr>
+
+   <% for (var i = 0; i < quotation.length; i++) { %>
+    <tr>
+      <td><%= quotation[i].username %></td>
+      <td><%= quotation[i].post %></td>
+<td>
+	
+	<% if((quotation[i].username)===(user) ){ %>
+
+ 
+
+  
+
+      
+	<a data-id = "<%= quotation[i].id %>" id = "submit">X</a>
+
+ 
+
+<% } %>
+</td>
+    </tr>    
+   <% } %>
+</table>
+<div>
+  <form method="POST" action="/add">
+    <input type="text" id="fname" name="firstname" placeholder="Your Post...">
+  
+    <input type="submit" value="Comment">
+  </form>
+</div>
+
+
+    </div>
+<h2>Current User</h2>
+<p><%= user %></p>
+</main>
+
+<footer>
+    <% include ./footer %>
+</footer>
+<script>
+document.getElementById("submit").onclick = function() {myFunction()};
+
+function myFunction() {
+
+   event.preventDefault();
+	var conf = confirm("Are You sure?");
+if(conf){
+	$.ajax({
+		type: 'DELETE',
+		url: '/posts/' + $('.deleteUser'),
+		data: {id : $(document.getElementById("submit")).data("id") }	
+	}).done(function(response){
+		console.log("hereeeeeeaaaa");
+		window.location.href = '/posts';
+			
+	});
+}
+}
+</script>
+
+</body>
+</html>
